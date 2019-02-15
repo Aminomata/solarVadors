@@ -5,6 +5,7 @@ public class CameraRay : MonoBehaviour
 {
     public GameObject spaceShip;
     public GameObject spawnSpaceShip;
+    public GameObject destroySpaceShip;
     public GameObject planeSpawn;
     public float fireRate;
 
@@ -16,7 +17,8 @@ public class CameraRay : MonoBehaviour
         cam = GetComponent<Camera>();
     }
 
-    void Update(){
+    void Update()
+    {
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
         RaycastHit hit;
 
@@ -29,18 +31,26 @@ public class CameraRay : MonoBehaviour
                     nextSpawn = Time.time + fireRate;
                     StartCoroutine(SpawnShip(hit));
                 }
-                print("I'm looking at " + hit.point.x);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                if (hit.transform.gameObject.CompareTag("Shootable"))
+                {
+                    StartCoroutine(DeleteShip(hit));
+                }
             }
         }
-
-        else
-        {
-            print("I'm looking at nothing!");
-
-        }
+    }
+        
+    IEnumerator DeleteShip(RaycastHit hit)
+    {
+        Destroy(hit.transform.parent.gameObject);
+        GameObject obj = Instantiate(destroySpaceShip, hit.point, new Quaternion());
+        yield return new WaitForSeconds(2);
+        Destroy(obj);
     }
 
-    
     IEnumerator SpawnShip(RaycastHit hit)
     {
         GameObject obj = Instantiate(spawnSpaceShip, hit.point, new Quaternion());
