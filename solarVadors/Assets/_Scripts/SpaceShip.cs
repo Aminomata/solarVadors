@@ -2,7 +2,7 @@
 
 public class SpaceShip : MonoBehaviour
 {
-    public float speed;
+    public Vector3 speed;
 
     void Start()
     {
@@ -11,6 +11,6 @@ public class SpaceShip : MonoBehaviour
 
     void Update()
     {
-        transform.position = new Vector3(transform.position.x + speed * Time.deltaTime, transform.position.y, transform.position.z);
+        transform.position = new Vector3(transform.position.x + speed.x * Time.deltaTime, transform.position.y + speed.y * Time.deltaTime, transform.position.z + speed.z * Time.deltaTime);
     }
 }

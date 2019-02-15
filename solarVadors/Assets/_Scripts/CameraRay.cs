@@ -28,7 +28,6 @@ public class CameraRay : MonoBehaviour
                 {
                     nextSpawn = Time.time + fireRate;
                     StartCoroutine(SpawnShip(hit));
-
                 }
                 print("I'm looking at " + hit.point.x);
             }
